@@ -14,7 +14,10 @@
 						<a href="{% url 'exibir' perfil.id %}">{{ perfil.nome }}</a>
 
 				{% if not perfil in user.perfil.bloqueados.all%}
-						<a href="{% url 'bloquear' perfil.id %}">Bloquear usuário</a>
+						{% if perfil in user.perfil.contatos.all%}
+							<a href="{% url 'bloquear' perfil.id %}">Bloquear usuário</a>
+						{% endif %}
+
 				{%else%}
 						<a href="{% url 'desbloquear' perfil.id %}">Desbloquear usuario</a>
 				{% endif %}
@@ -62,6 +65,9 @@
 				<ul class="list-group">
 					{% for contato in perfil_logado.contatos.all %}
 						<a href="{% url 'exibir' contato.id %}" class="list-group-item">{{ contato.nome }} - {{ contato.email }}</a>
+						 <a class="pull-right" href="{% url 'desfazer' contato.id %}">
+                                Desfazer a amizade
+						 </a>
 					{% endfor %}
 				</ul>
 			{% else %}

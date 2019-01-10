@@ -20,16 +20,18 @@ class Perfil(models.Model):
         return self.usuario.email
 
     def convidar(self, perfil_convidado):
-        #if self.pode_convidar(perfil_convidado):
-            convite = Convite(solicitante=self,convidado = perfil_convidado)
-            convite.save()
+        convite = Convite(solicitante=self,convidado = perfil_convidado)
+        convite.save()
 
     def bloquear(self, perfil):
         self.bloqueados.add(perfil)
         self.desfazer(perfil)
+        self.save()
 
     def desbloquear(self, perfil):
         self.bloqueados.remove(perfil)
+        self.convidar(perfil)
+        self.save()
 
     def desfazer(self, perfil):
         self.contatos.remove(perfil)
@@ -43,4 +45,5 @@ class Convite(models.Model):
         self.solicitante.contatos.add(self.convidado)
         self.convidado.contatos.add(self.solicitante)
         self.delete()
+
 
