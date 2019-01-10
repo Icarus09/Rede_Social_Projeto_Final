@@ -11,5 +11,6 @@ urlpatterns = (
 	path('convite/<int:perfil_id>/desfazer', views.desfazer, name='desfazer'),
 	path('perfil/postagem', views.postagem, name='postagem'),
 	path('perfil/post', views.add_post, name='add_post'),
+	path('perfil/<int:id_post>/deletar', views.deletar_postagem, name='deletar_postagem'),
 
 )

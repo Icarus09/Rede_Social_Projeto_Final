@@ -11,6 +11,7 @@
                 <h2>{{p.texto}}</h2>
                 <p>{{p.data}}</p>
                 <p>{{p.usuario}}</p>
+        <a href="{% url 'deletar_postagem' p.id %}">Deletar Postagem</a>
 
      {%endfor%}
 </body>

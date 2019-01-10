@@ -86,3 +86,8 @@ def add_post(request):
 	else:
 		postform = PostForm()
 	return render(request, 'add_postagem.html', {'post': postform})
+
+@login_required
+def deletar_postagem(request,id_post):
+    Postagem.objects.filter(id=id_post).delete()
+    return redirect('index')
