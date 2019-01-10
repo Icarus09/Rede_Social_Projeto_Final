@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 # Create your models here.
 
@@ -46,4 +48,7 @@ class Convite(models.Model):
         self.convidado.contatos.add(self.solicitante)
         self.delete()
 
-
+class Postagem(models.Model):
+        texto = models.CharField(max_length=140)
+        data = models.DateTimeField(default=timezone.now)
+        usuario = models.ForeignKey(Perfil, related_name='perfil_postagens', on_delete=models.CASCADE)

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<head>
+</head>
+<body>
+   <h1>Postagens</h1>
+    <a href="{% url 'add_post' %}">Adicionar postagem</a>
+     {% for p in posts %}
+                <div>
+                <h2>{{p.texto}}</h2>
+                <p>{{p.data}}</p>
+                <p>{{p.usuario}}</p>
+
+     {%endfor%}
+</body>
+</html>
+{%endblock%}

@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from perfis.models import Perfil, Convite
+from perfis.models import Perfil, Convite, Postagem
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from .forms import *
+
 
 @login_required
 def index(request):
@@ -56,3 +59,30 @@ def desfazer(request,perfil_id):
 	perfil = Perfil.objects.get(id=perfil_id)
 	perfil.desfazer(get_perfil_logado(request))
 	return redirect('index')
+
+
+
+@login_required
+def postagem(request):
+	postagens = [post for post in request.user.perfil.perfil_postagens.all()]
+	usuario = request.user.perfil
+	print(postagens)
+	contatos = request.user.perfil.contatos.all()
+	for contato in contatos:
+		for post in contato.perfil_postagens.all():
+			postagens.append(post)
+
+	return render(request, 'postagens.html', {'posts': postagens, 'usuarioLogado': usuario})
+
+
+def add_post(request):
+	if request.method == 'POST':
+		postform = PostForm(request.POST or None)
+		if postform.is_valid():
+			postin = postform.save(commit=False)
+			postin.usuario = request.user.perfil
+			postin.save()
+			return redirect('index')
+	else:
+		postform = PostForm()
+	return render(request, 'add_postagem.html', {'post': postform})

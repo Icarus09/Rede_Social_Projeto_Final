@@ -8,5 +8,8 @@ urlpatterns = (
 	path('convite/<int:convite_id>/aceitar', views.aceitar, name='aceitar'),
 	path('<int:perfil_id>/bloquear', views.bloquear_usuario, name='bloquear'),
 	path('<int:perfil_id>/desbloquear', views.desbloquear_usuario, name='desbloquear'),
-	path('convite/<int:perfil_id>/desfazer', views.desfazer, name='desfazer')
+	path('convite/<int:perfil_id>/desfazer', views.desfazer, name='desfazer'),
+	path('perfil/postagem', views.postagem, name='postagem'),
+	path('perfil/post', views.add_post, name='add_post'),
+
 )
