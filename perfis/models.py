@@ -8,6 +8,7 @@ class Perfil(models.Model):
     telefone = models.CharField(max_length=20, null= False)
     nome_empresa = models.CharField(max_length=255, null=False)
     contatos = models.ManyToManyField('Perfil')
+    bloqueados = models.ManyToManyField('Perfil', related_name='contatos_bloqueados')
     usuario = models.OneToOneField(User, related_name="perfil", on_delete=models.CASCADE, default="", editable=False)
 
 
@@ -23,6 +24,17 @@ class Perfil(models.Model):
             convite = Convite(solicitante=self,convidado = perfil_convidado)
             convite.save()
 
+    def bloquear(self, perfil):
+        self.bloqueados.add(perfil)
+        self.desfazer(perfil)
+
+    def desbloquear(self, perfil):
+        self.bloqueados.remove(perfil)
+
+    def desfazer(self, perfil):
+        self.contatos.remove(perfil)
+        perfil.contatos.remove(self)
+
 class Convite(models.Model):
     solicitante = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='convites_feitos' )
     convidado = models.ForeignKey(Perfil, on_delete= models.CASCADE, related_name='convites_recebidos')
@@ -31,3 +43,4 @@ class Convite(models.Model):
         self.solicitante.contatos.add(self.convidado)
         self.convidado.contatos.add(self.solicitante)
         self.delete()
+

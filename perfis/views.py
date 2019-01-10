@@ -39,4 +39,20 @@ def aceitar(request, convite_id):
 	convite.aceitar()
 	return redirect('index')
 
+@login_required
+def bloquear_usuario(request, perfil_id):
+    perfil = Perfil.objects.get(id=perfil_id)
+    request.user.perfil.bloquear(perfil)
+    return redirect('index')
 
+@login_required
+def desbloquear_usuario(request,perfil_id):
+    perfil = Perfil.objects.get(id=perfil_id)
+    request.user.perfil.desbloquear(perfil)
+    return redirect('index')
+
+@login_required
+def desfazer(request,perfil_id):
+	perfil = Perfil.objects.get(id=perfil_id)
+	perfil.desfazer(get_perfil_logado(request))
+	return redirect('index')

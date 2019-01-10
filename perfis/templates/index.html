@@ -12,7 +12,15 @@
 				{% for perfil in perfis %}
 					<li>
 						<a href="{% url 'exibir' perfil.id %}">{{ perfil.nome }}</a>
+
+				{% if not perfil in user.perfil.bloqueados.all%}
+						<a href="{% url 'bloquear' perfil.id %}">Bloquear usuário</a>
+				{%else%}
+						<a href="{% url 'desbloquear' perfil.id %}">Desbloquear usuario</a>
+				{% endif %}
+
 					</li>
+
 				{% endfor %}
 			</ul>
 		{% else %}
